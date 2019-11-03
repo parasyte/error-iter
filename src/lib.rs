@@ -16,7 +16,7 @@
 //!
 //! impl ErrorIter for Error {}
 //!
-//! fn main () {
+//! fn do_something() {
 //!     let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
 //!
 //!     eprintln!("Error: {}", error);

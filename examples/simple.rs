@@ -13,7 +13,7 @@ enum Error {
 
 impl ErrorIter for Error {}
 
-fn main () {
+fn main() {
     let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
 
     eprintln!("Error: {}", error);
