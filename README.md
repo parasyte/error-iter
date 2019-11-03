@@ -18,32 +18,6 @@ This crate does not attempt to be 100% compatible with the stabilization effort,
 
 `cargo run --example simple`
 
-```rust
-use error_iter::ErrorIter;
-use std::io::{Error as IoError, ErrorKind};
-use thiserror::Error;
-
-#[derive(Debug, Error)]
-enum Error {
-    #[error("I/O Error")]
-    Io(#[from] IoError),
-
-    #[error("Unknown error")]
-    Unknown,
-}
-
-impl ErrorIter for Error {}
-
-fn main () {
-    let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
-
-    eprintln!("Error: {}", error);
-    for source in iter_sources(&error) {
-        eprintln!("  Caused by: {}", source);
-    }
-}
-```
-
 ## Why not a derive macro?
 
 PRs welcome! :)
