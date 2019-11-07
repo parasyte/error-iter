@@ -1,5 +1,6 @@
 # `error-iter`
 
+[![Build Status](https://travis-ci.org/parasyte/error-iter.svg?branch=master)](https://travis-ci.org/parasyte/error-iter)
 [![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)](https://github.com/rust-secure-code/safety-dance/)
 
 Use [`Error::iter_chain`](https://doc.rust-lang.org/stable/std/error/trait.Error.html#method.iter_chain) and [`Error::iter_sources`](https://doc.rust-lang.org/stable/std/error/trait.Error.html#method.iter_sources) on stable Rust.
