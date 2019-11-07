@@ -28,6 +28,7 @@
 
 #![deny(clippy::all)]
 #![deny(clippy::pedantic)]
+#![forbid(unsafe_code)]
 
 pub struct ErrorIterator<'a> {
     inner: Option<&'a (dyn std::error::Error + 'static)>,
