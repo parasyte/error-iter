@@ -39,9 +39,7 @@ impl<'a> Iterator for ErrorIterator<'a> {
 
     fn next(&mut self) -> Option<Self::Item> {
         if let Some(error) = self.inner.take() {
-            if let Some(source) = error.source() {
-                self.inner = Some(source);
-            }
+            self.inner = error.source();
             return Some(error);
         }
 
