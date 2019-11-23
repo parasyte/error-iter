@@ -7,7 +7,7 @@ authors = ["Jay Oster <jay@kodewerx.org>"]
 edition = "2018"
 readme = "README.md"
 keywords = ["chain", "error", "iter", "iterator", "sources"]
-categories = ["development-tools::debugging"]
+categories = ["rust-patterns"]
 license = "MIT"
 
 [badges]
