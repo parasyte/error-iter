@@ -1,9 +1,10 @@
 # `error-iter`
 
+[![Documentation](https://docs.rs/error-iter/badge.svg)](https://docs.rs/error-iter)
 [![Build Status](https://travis-ci.org/parasyte/error-iter.svg?branch=master)](https://travis-ci.org/parasyte/error-iter)
 [![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)](https://github.com/rust-secure-code/safety-dance/)
 
-Use [`Error::iter_chain`](https://doc.rust-lang.org/stable/std/error/trait.Error.html#method.iter_chain) and [`Error::iter_sources`](https://doc.rust-lang.org/stable/std/error/trait.Error.html#method.iter_sources) on stable Rust.
+Use [`Error::chain`](https://doc.rust-lang.org/nightly/std/error/trait.Error.html#method.chain) on stable Rust.
 
 ## MSRV
 
@@ -13,7 +14,7 @@ Compiles on Rust 1.31.0, but does not return the tail source. (Tests fail on any
 
 ## What is this?
 
-`iter_chain` and `iter_sources` are incredibly useful for providing error context in Rust applications. For motivation, see [RFC 2504](https://github.com/rust-lang/rfcs/blob/master/text/2504-fix-error.md). These iterators are available in nightly compilers with [#58520](https://github.com/rust-lang/rust/issues/58520) tracking stabilization.
+`Error::chain` is incredibly useful for providing error context in Rust applications. For motivation, see [RFC 2504](https://github.com/rust-lang/rfcs/blob/master/text/2504-fix-error.md). This iterator is available in nightly compilers with [#58520](https://github.com/rust-lang/rust/issues/58520) tracking stabilization.
 
 This crate does not attempt to be 100% compatible with the stabilization effort, but does want to provide very similar functionality to stable Rust.
 
