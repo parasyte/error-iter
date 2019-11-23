@@ -20,7 +20,7 @@
 //!     let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
 //!
 //!     eprintln!("Error: {}", error);
-//!     for source in error.iter_sources() {
+//!     for source in error.chain().skip(1) {
 //!         eprintln!("  Caused by: {}", source);
 //!     }
 //! }
@@ -72,46 +72,15 @@ pub trait ErrorIter: std::error::Error + Sized + 'static {
     ///
     /// let error = Error::Nested(Box::new(Error::Leaf));
     ///
-    /// let mut iter = error.iter_chain();
+    /// let mut iter = error.chain();
     ///
     /// assert_eq!("Nested error: Leaf error".to_string(), iter.next().unwrap().to_string());
     /// assert_eq!("Leaf error".to_string(), iter.next().unwrap().to_string());
     /// assert!(iter.next().is_none());
     /// assert!(iter.next().is_none());
     /// ```
-    fn iter_chain(&self) -> ErrorIterator {
+    fn chain(&self) -> ErrorIterator {
         ErrorIterator { inner: Some(self) }
-    }
-
-    /// Create an iterator over the chained error sources.
-    ///
-    /// ```
-    /// use error_iter::ErrorIter;
-    /// use thiserror::Error;
-    ///
-    /// #[derive(Debug, Error)]
-    /// enum Error {
-    ///     #[error("Nested error: {0}")]
-    ///     Nested(#[source] Box<Error>),
-    ///
-    ///     #[error("Leaf error")]
-    ///     Leaf,
-    /// }
-    ///
-    /// impl ErrorIter for Error {}
-    ///
-    /// let error = Error::Nested(Box::new(Error::Leaf));
-    ///
-    /// let mut iter = error.iter_sources();
-    ///
-    /// assert_eq!("Leaf error".to_string(), iter.next().unwrap().to_string());
-    /// assert!(iter.next().is_none());
-    /// assert!(iter.next().is_none());
-    /// ```
-    fn iter_sources(&self) -> ErrorIterator {
-        ErrorIterator {
-            inner: self.source(),
-        }
     }
 }
 
@@ -135,27 +104,12 @@ mod tests {
     fn iter_chain_ok() {
         let error = Error::Nested(Box::new(Error::Nested(Box::new(Error::Leaf))));
 
-        let mut iter = error.iter_chain();
+        let mut iter = error.chain();
 
         assert_eq!(
             "Nested error: Nested error: Leaf error".to_string(),
             iter.next().unwrap().to_string()
         );
-        assert_eq!(
-            "Nested error: Leaf error".to_string(),
-            iter.next().unwrap().to_string()
-        );
-        assert_eq!("Leaf error".to_string(), iter.next().unwrap().to_string());
-        assert!(iter.next().is_none());
-        assert!(iter.next().is_none());
-    }
-
-    #[test]
-    fn iter_sources_ok() {
-        let error = Error::Nested(Box::new(Error::Nested(Box::new(Error::Leaf))));
-
-        let mut iter = error.iter_sources();
-
         assert_eq!(
             "Nested error: Leaf error".to_string(),
             iter.next().unwrap().to_string()

@@ -1,8 +1,8 @@
 [package]
 name = "error-iter"
-description = "Error::iter_chain and Error::iter_sources on stable Rust"
+description = "Error::chain on stable Rust"
 repository = "https://github.com/parasyte/error-iter"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Jay Oster <jay@kodewerx.org>"]
 edition = "2018"
 readme = "README.md"
