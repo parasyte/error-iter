@@ -11,7 +11,7 @@ categories = ["rust-patterns"]
 license = "MIT"
 
 # NOTE: This field was first added in Rust 1.56.0
-rust-version = "1.33"
+rust-version = "1.37"
 
 [badges]
 maintenance = { status = "experimental" }
