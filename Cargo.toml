@@ -14,7 +14,6 @@ license = "MIT"
 rust-version = "1.33"
 
 [badges]
-travis-ci = { repository = "parasyte/error-iter" }
 maintenance = { status = "experimental" }
 
 [dev-dependencies]
