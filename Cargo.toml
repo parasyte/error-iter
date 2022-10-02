@@ -10,9 +10,11 @@ keywords = ["chain", "error", "iter", "iterator", "sources"]
 categories = ["rust-patterns"]
 license = "MIT"
 
+# NOTE: This field was first added in Rust 1.56.0
+rust-version = "1.37"
+
 [badges]
-travis-ci = { repository = "parasyte/error-iter" }
 maintenance = { status = "experimental" }
 
 [dev-dependencies]
-thiserror = "1.0"
+thiserror = "1"
