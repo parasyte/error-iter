@@ -20,7 +20,7 @@
 //!     let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
 //!
 //!     eprintln!("Error: {}", error);
-//!     for source in error.chain().skip(1) {
+//!     for source in error.sources().skip(1) {
 //!         eprintln!("  Caused by: {}", source);
 //!     }
 //! }
@@ -51,7 +51,7 @@ impl<'a> Iterator for ErrorIterator<'a> {
 ///
 /// The default implementation provides iterators for any type that implements `std::error::Error`.
 pub trait ErrorIter: std::error::Error + Sized + 'static {
-    /// Create an iterator over the error and its chained sources.
+    /// Create an iterator over the error and its recursive sources.
     ///
     /// ```
     /// use error_iter::ErrorIter;
@@ -70,14 +70,14 @@ pub trait ErrorIter: std::error::Error + Sized + 'static {
     ///
     /// let error = Error::Nested(Box::new(Error::Leaf));
     ///
-    /// let mut iter = error.chain();
+    /// let mut iter = error.sources();
     ///
     /// assert_eq!("Nested error: Leaf error".to_string(), iter.next().unwrap().to_string());
     /// assert_eq!("Leaf error".to_string(), iter.next().unwrap().to_string());
     /// assert!(iter.next().is_none());
     /// assert!(iter.next().is_none());
     /// ```
-    fn chain(&self) -> ErrorIterator {
+    fn sources(&self) -> ErrorIterator {
         ErrorIterator { inner: Some(self) }
     }
 }
@@ -99,10 +99,10 @@ mod tests {
     impl ErrorIter for Error {}
 
     #[test]
-    fn iter_chain_ok() {
+    fn iter_sources_ok() {
         let error = Error::Nested(Box::new(Error::Nested(Box::new(Error::Leaf))));
 
-        let mut iter = error.chain();
+        let mut iter = error.sources();
 
         assert_eq!(
             "Nested error: Nested error: Leaf error".to_string(),

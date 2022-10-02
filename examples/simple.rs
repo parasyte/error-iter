@@ -17,7 +17,7 @@ fn main() {
     let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
 
     eprintln!("Error: {}", error);
-    for source in error.chain().skip(1) {
+    for source in error.sources().skip(1) {
         eprintln!("  Caused by: {}", source);
     }
 }
