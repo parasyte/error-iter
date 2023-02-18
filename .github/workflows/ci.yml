@@ -40,8 +40,9 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           shared-key: common
-      - name: Cargo check
+      - name: Delete Cargo.lock
         run: rm Cargo.lock
+      - name: Cargo check
         run: cargo check --all
   lints:
     name: Lints
@@ -101,6 +102,7 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           shared-key: common
-      - name: Cargo test
+      - name: Delete Cargo.lock
         run: rm Cargo.lock
+      - name: Cargo test
         run: cargo test --all
