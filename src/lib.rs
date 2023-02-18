@@ -1,7 +1,7 @@
 //! Iterators over `std::error::Error` sources on stable Rust.
 //!
 //! ```
-//! use error_iter::ErrorIter;
+//! use error_iter::ErrorIter as _;
 //! use std::io::{Error as IoError, ErrorKind};
 //! use thiserror::Error;
 //!
@@ -13,8 +13,6 @@
 //!     #[error("Unknown error")]
 //!     Unknown,
 //! }
-//!
-//! impl ErrorIter for Error {}
 //!
 //! fn do_something() {
 //!     let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
@@ -54,7 +52,7 @@ pub trait ErrorIter: std::error::Error + Sized + 'static {
     /// Create an iterator over the error and its recursive sources.
     ///
     /// ```
-    /// use error_iter::ErrorIter;
+    /// use error_iter::ErrorIter as _;
     /// use thiserror::Error;
     ///
     /// #[derive(Debug, Error)]
@@ -65,8 +63,6 @@ pub trait ErrorIter: std::error::Error + Sized + 'static {
     ///     #[error("Leaf error")]
     ///     Leaf,
     /// }
-    ///
-    /// impl ErrorIter for Error {}
     ///
     /// let error = Error::Nested(Box::new(Error::Leaf));
     ///
@@ -82,6 +78,8 @@ pub trait ErrorIter: std::error::Error + Sized + 'static {
     }
 }
 
+impl<T> ErrorIter for T where T: std::error::Error + Sized + 'static {}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -95,8 +93,6 @@ mod tests {
         #[error("Leaf error")]
         Leaf,
     }
-
-    impl ErrorIter for Error {}
 
     #[test]
     fn iter_sources_ok() {

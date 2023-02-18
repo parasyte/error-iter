@@ -24,7 +24,3 @@ This crate does not attempt to be 100% compatible with the stabilization effort,
 ## Show me
 
 `cargo run --example simple`
-
-## Why not a derive macro?
-
-PRs welcome! :)

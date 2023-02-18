@@ -1,4 +1,4 @@
-use error_iter::ErrorIter;
+use error_iter::ErrorIter as _;
 use std::io::{Error as IoError, ErrorKind};
 use thiserror::Error;
 
@@ -10,8 +10,6 @@ enum Error {
     #[error("Unknown error")]
     _Unknown,
 }
-
-impl ErrorIter for Error {}
 
 fn main() {
     let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
