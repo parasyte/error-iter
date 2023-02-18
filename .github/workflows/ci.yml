@@ -18,16 +18,15 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
       - name: Install toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: ${{ matrix.rust }}
-          override: true
-      - name: Cargo check
-        uses: actions-rs/cargo@v1
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
         with:
-          command: check
-          args: --all
+          shared-key: common
+      - name: Cargo check
+        run: cargo check --workspace
   lints:
     name: Lints
     runs-on: ubuntu-latest
@@ -35,27 +34,20 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
       - name: Install toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: stable
           components: clippy, rustfmt
-          override: true
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: common
       - name: Cargo fmt
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+        run: cargo fmt --all -- --check
       - name: Cargo doc
-        uses: actions-rs/cargo@v1
-        with:
-          command: doc
-          args: --workspace --no-deps
+        run: cargo doc --workspace --no-deps
       - name: Cargo clippy
-        uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all --tests -- -D warnings
+        run: cargo clippy --workspace --tests -- -D warnings
   tests:
     name: Test
     runs-on: ubuntu-latest
@@ -70,13 +62,12 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
       - name: Install toolchain
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: ${{ matrix.rust }}
-          override: true
-      - name: Cargo test
-        uses: actions-rs/cargo@v1
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
         with:
-          command: test
-          args: --all
+          shared-key: common
+      - name: Cargo test
+        run: cargo test --workspace
