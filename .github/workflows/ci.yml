@@ -26,7 +26,7 @@ jobs:
         with:
           shared-key: common
       - name: Cargo check
-        run: cargo check --workspace
+        run: cargo check --all
   lints:
     name: Lints
     runs-on: ubuntu-latest
@@ -70,4 +70,4 @@ jobs:
         with:
           shared-key: common
       - name: Cargo test
-        run: cargo test --workspace
+        run: cargo test --all
