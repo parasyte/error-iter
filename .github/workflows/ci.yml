@@ -13,7 +13,6 @@ jobs:
         rust:
           - stable
           - beta
-          - 1.37.0
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
@@ -26,6 +25,23 @@ jobs:
         with:
           shared-key: common
       - name: Cargo check
+        run: cargo check --workspace
+  checks_old:
+    name: Check 1.37.0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.37.0
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: common
+      - name: Cargo check
+        run: rm Cargo.lock
         run: cargo check --all
   lints:
     name: Lints
@@ -57,7 +73,6 @@ jobs:
         rust:
           - stable
           - beta
-          - 1.37.0
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
@@ -70,4 +85,22 @@ jobs:
         with:
           shared-key: common
       - name: Cargo test
+        run: cargo test --workspace
+  tests_old:
+    name: Test 1.37.0
+    runs-on: ubuntu-latest
+    needs: [checks, lints]
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.37.0
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: common
+      - name: Cargo test
+        run: rm Cargo.lock
         run: cargo test --all
