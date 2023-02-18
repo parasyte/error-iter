@@ -2,7 +2,7 @@
 
 [![Crates.io](https://img.shields.io/crates/v/error-iter)](https://crates.io/crates/error-iter "Crates.io version")
 [![Documentation](https://img.shields.io/docsrs/error-iter)](https://docs.rs/error-iter "Documentation")
-[![GitHub actions](https://img.shields.io/github/workflow/status/parasyte/error-iter/CI)](https://github.com/parasyte/error-iter/actions "CI")
+[![GitHub actions](https://img.shields.io/github/actions/workflow/status/parasyte/error-iter/ci.yml?branch=main)](https://github.com/parasyte/error-iter/actions "CI")
 [![GitHub activity](https://img.shields.io/github/last-commit/parasyte/error-iter)](https://github.com/parasyte/error-iter/commits "Commit activity")
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/parasyte)](https://github.com/sponsors/parasyte "Sponsors")
 [![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)](https://github.com/rust-secure-code/safety-dance/)
