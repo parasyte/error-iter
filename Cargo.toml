@@ -2,7 +2,7 @@
 name = "error-iter"
 description = "Error::sources on stable Rust"
 repository = "https://github.com/parasyte/error-iter"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["Jay Oster <jay@kodewerx.org>"]
 edition = "2018"
 readme = "README.md"
