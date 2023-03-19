@@ -17,4 +17,4 @@ rust-version = "1.37"
 maintenance = { status = "experimental" }
 
 [dev-dependencies]
-thiserror = "1"
+thiserror = "=1.0.39"
