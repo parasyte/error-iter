@@ -2,7 +2,7 @@
 name = "error-iter"
 description = "Error::sources on stable Rust"
 repository = "https://github.com/parasyte/error-iter"
-version = "0.4.1"
+version = "1.0.0"
 authors = ["Jay Oster <jay@kodewerx.org>"]
 edition = "2018"
 readme = "README.md"
@@ -14,7 +14,7 @@ license = "MIT"
 rust-version = "1.37"
 
 [badges]
-maintenance = { status = "experimental" }
+maintenance = { status = "passively-maintained" }
 
 [dev-dependencies]
 thiserror = "=1.0.39"
