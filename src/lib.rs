@@ -1,21 +1,22 @@
 //! Iterators over `std::error::Error` sources on stable Rust.
 //!
 //! ```
-//! use error_iter::ErrorIter as _;
-//! use std::io::{Error as IoError, ErrorKind};
+//! use error_iter::ErrorExt as _;
+//! use std::io;
 //! use thiserror::Error;
 //!
 //! #[derive(Debug, Error)]
 //! enum Error {
 //!     #[error("I/O Error")]
-//!     Io(#[from] IoError),
+//!     Io(#[from] io::Error),
 //!
 //!     #[error("Unknown error")]
 //!     Unknown,
 //! }
 //!
 //! fn do_something() {
-//!     let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
+//!     let inner = io::Error::new(io::ErrorKind::Other, "oh no!");
+//!     let error = Error::from(inner);
 //!
 //!     eprintln!("Error: {}", error);
 //!     for source in error.sources().skip(1) {
@@ -48,11 +49,11 @@ impl<'a> Iterator for ErrorIterator<'a> {
 /// Implement this trait on your error types for free iterators over their sources!
 ///
 /// The default implementation provides iterators for any type that implements `std::error::Error`.
-pub trait ErrorIter: std::error::Error + Sized + 'static {
+pub trait ErrorExt: std::error::Error + Sized + 'static {
     /// Create an iterator over the error and its recursive sources.
     ///
     /// ```
-    /// use error_iter::ErrorIter as _;
+    /// use error_iter::ErrorExt as _;
     /// use thiserror::Error;
     ///
     /// #[derive(Debug, Error)]
@@ -78,7 +79,7 @@ pub trait ErrorIter: std::error::Error + Sized + 'static {
     }
 }
 
-impl<T> ErrorIter for T where T: std::error::Error + Sized + 'static {}
+impl<T> ErrorExt for T where T: std::error::Error + Sized + 'static {}
 
 #[cfg(test)]
 mod tests {

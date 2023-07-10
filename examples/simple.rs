@@ -1,18 +1,19 @@
-use error_iter::ErrorIter as _;
-use std::io::{Error as IoError, ErrorKind};
+use error_iter::ErrorExt as _;
+use std::io;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
 enum Error {
     #[error("I/O Error")]
-    Io(#[from] IoError),
+    Io(#[from] io::Error),
 
     #[error("Unknown error")]
     _Unknown,
 }
 
 fn main() {
-    let error = Error::from(IoError::new(ErrorKind::Other, "oh no!"));
+    let inner = io::Error::new(io::ErrorKind::Other, "oh no!");
+    let error = Error::from(inner);
 
     eprintln!("Error: {}", error);
     for source in error.sources().skip(1) {
