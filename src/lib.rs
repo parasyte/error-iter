@@ -44,7 +44,17 @@ impl<'a> Iterator for ErrorIterator<'a> {
 
         None
     }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        if self.inner.is_some() {
+            (1, None)
+        } else {
+            (0, Some(0))
+        }
+    }
 }
+
+impl std::iter::FusedIterator for ErrorIterator<'_> {}
 
 /// Implement this trait on your error types for free iterators over their sources!
 ///
@@ -74,7 +84,7 @@ pub trait ErrorExt: std::error::Error + Sized + 'static {
     /// assert!(iter.next().is_none());
     /// assert!(iter.next().is_none());
     /// ```
-    fn sources(&self) -> ErrorIterator {
+    fn sources(&self) -> ErrorIterator<'_> {
         ErrorIterator { inner: Some(self) }
     }
 }
@@ -101,16 +111,21 @@ mod tests {
 
         let mut iter = error.sources();
 
+        assert_eq!((1, None), iter.size_hint());
         assert_eq!(
             "Nested error: Nested error: Leaf error".to_string(),
             iter.next().unwrap().to_string()
         );
+        assert_eq!((1, None), iter.size_hint());
         assert_eq!(
             "Nested error: Leaf error".to_string(),
             iter.next().unwrap().to_string()
         );
+        assert_eq!((1, None), iter.size_hint());
         assert_eq!("Leaf error".to_string(), iter.next().unwrap().to_string());
+        assert_eq!((0, Some(0)), iter.size_hint());
         assert!(iter.next().is_none());
+        assert_eq!((0, Some(0)), iter.size_hint());
         assert!(iter.next().is_none());
     }
 }
