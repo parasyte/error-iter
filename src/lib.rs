@@ -59,7 +59,7 @@ impl std::iter::FusedIterator for ErrorIterator<'_> {}
 /// Implement this trait on your error types for free iterators over their sources!
 ///
 /// The default implementation provides iterators for any type that implements `std::error::Error`.
-pub trait ErrorExt: std::error::Error + Sized + 'static {
+pub trait ErrorExt: std::error::Error + 'static {
     /// Create an iterator over the error and its recursive sources.
     ///
     /// ```
@@ -84,12 +84,23 @@ pub trait ErrorExt: std::error::Error + Sized + 'static {
     /// assert!(iter.next().is_none());
     /// assert!(iter.next().is_none());
     /// ```
+    fn sources(&self) -> ErrorIterator<'_>;
+}
+
+impl<T> ErrorExt for T
+where
+    T: std::error::Error + 'static,
+{
     fn sources(&self) -> ErrorIterator<'_> {
         ErrorIterator { inner: Some(self) }
     }
 }
 
-impl<T> ErrorExt for T where T: std::error::Error + Sized + 'static {}
+impl ErrorExt for dyn std::error::Error + 'static {
+    fn sources(&self) -> ErrorIterator<'_> {
+        ErrorIterator { inner: Some(self) }
+    }
+}
 
 #[cfg(test)]
 mod tests {
