@@ -17,4 +17,4 @@ rust-version = "1.37"
 maintenance = { status = "passively-maintained" }
 
 [dev-dependencies]
-thiserror = "=1.0.39"
+onlyerror = "0.1"

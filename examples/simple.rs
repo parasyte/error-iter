@@ -1,6 +1,6 @@
 use error_iter::ErrorExt as _;
+use onlyerror::Error;
 use std::io;
-use thiserror::Error;
 
 #[derive(Debug, Error)]
 enum Error {

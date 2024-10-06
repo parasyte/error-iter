@@ -3,7 +3,7 @@
 //! ```
 //! use error_iter::ErrorExt as _;
 //! use std::io;
-//! use thiserror::Error;
+//! use onlyerror::Error;
 //!
 //! #[derive(Debug, Error)]
 //! enum Error {
@@ -54,7 +54,7 @@ pub trait ErrorExt: std::error::Error + Sized + 'static {
     ///
     /// ```
     /// use error_iter::ErrorExt as _;
-    /// use thiserror::Error;
+    /// use onlyerror::Error;
     ///
     /// #[derive(Debug, Error)]
     /// enum Error {
@@ -84,7 +84,7 @@ impl<T> ErrorExt for T where T: std::error::Error + Sized + 'static {}
 #[cfg(test)]
 mod tests {
     use super::*;
-    use thiserror::Error;
+    use onlyerror::Error;
 
     #[derive(Debug, Error)]
     enum Error {
