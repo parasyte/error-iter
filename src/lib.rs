@@ -44,7 +44,32 @@ impl<'a> Iterator for ErrorIterator<'a> {
 
         None
     }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let mut count = 0_usize;
+        let mut next = self.inner;
+        while let Some(error) = next {
+            match count.checked_add(1) {
+                Some(new_count) => count = new_count,
+                None => return (count, None),
+            }
+
+            next = error.source();
+        }
+
+        (count, Some(count))
+    }
 }
+
+impl<'a> ExactSizeIterator for ErrorIterator<'a> {
+    // TODO: Once stable, optimize by implementing `is_empty` manually.
+    // See: https://doc.rust-lang.org/std/iter/trait.ExactSizeIterator.html#method.is_empty
+    // fn is_empty(&self) -> bool {
+    //     self.inner.is_none()
+    // }
+}
+
+impl<'a> std::iter::FusedIterator for ErrorIterator<'a> {}
 
 /// Implement this trait on your error types for free iterators over their sources!
 ///
@@ -101,16 +126,21 @@ mod tests {
 
         let mut iter = error.sources();
 
+        assert_eq!((3, Some(3)), iter.size_hint());
         assert_eq!(
             "Nested error: Nested error: Leaf error".to_string(),
             iter.next().unwrap().to_string()
         );
+        assert_eq!((2, Some(2)), iter.size_hint());
         assert_eq!(
             "Nested error: Leaf error".to_string(),
             iter.next().unwrap().to_string()
         );
+        assert_eq!((1, Some(1)), iter.size_hint());
         assert_eq!("Leaf error".to_string(), iter.next().unwrap().to_string());
+        assert_eq!((0, Some(0)), iter.size_hint());
         assert!(iter.next().is_none());
+        assert_eq!((0, Some(0)), iter.size_hint());
         assert!(iter.next().is_none());
     }
 }
