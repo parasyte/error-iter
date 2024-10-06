@@ -11,9 +11,7 @@ Use [`Error::sources`](https://doc.rust-lang.org/nightly/std/error/trait.Error.h
 
 ## MSRV
 
-Supports Rust 1.37.0 and higher.
-
-Compiles on Rust 1.31.0, but does not return the tail source. (Tests fail on anything less than 1.37.0.)
+Supports Rust 1.56.0 and higher.
 
 ## What is this?
 

@@ -4,17 +4,15 @@ description = "Error::sources on stable Rust"
 repository = "https://github.com/parasyte/error-iter"
 version = "1.0.0"
 authors = ["Jay Oster <jay@kodewerx.org>"]
-edition = "2018"
+edition = "2021"
+rust-version = "1.56"
 readme = "README.md"
 keywords = ["error", "iter", "iterator", "recursive", "sources"]
 categories = ["rust-patterns"]
 license = "MIT"
 
-# NOTE: This field was first added in Rust 1.56.0
-rust-version = "1.37"
-
 [badges]
 maintenance = { status = "passively-maintained" }
 
 [dev-dependencies]
-thiserror = "=1.0.39"
+thiserror = "1"
